@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: stop the running container
+    docker_container:
+          name: myflask-app
+          state: stopped
+  - name: remove the image from repo
+    docker_image:
+          name: roop1985/python-flask
+          state: absent
+  - name: pull the docker image
+    docker_image:
+          name: roop1985/python-flask
+          source: pull
+          repository: roop1985/python-flask
+          tag: "{{ tag_var }}"
+  - name: start the docker image
+    docker_container:
+           name: myflask-app
+           image: roop1985/python-flask:2
+           state: started
+           published_ports: 5000:5000
+
+  - name: check the website
+    uri:
+      url: http://localhost:5000
+      status_code: 200
+
