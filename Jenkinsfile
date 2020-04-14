@@ -1,4 +1,3 @@
-
 pipeline {
   environment {
     registry = "roop1985/python-flask"
@@ -32,6 +31,25 @@ pipeline {
       steps{
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
+    }
+
+    stage('Deploy the image using ansible') {
+      node('ansible-node') {
+      steps{
+        dir("${WORKSPACE}") {
+          git credentialsId: 'git', url: 'https://github.com/roopesh2013/flask-app',
+          ansiblePlaybook([
+            inventory   : '/etc/ansible/hosts',
+            playbook    : 'docker_manage.yml',
+            installation: 'ansible',
+            colorized   : true,
+            extraVars   : [
+              tag_var = ${BUILD_NUMBER},
+            ]
+          ])
+        }
+      }
+    }
     }
   }
 }
