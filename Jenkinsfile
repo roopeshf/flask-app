@@ -1,7 +1,8 @@
+
 pipeline {
   environment {
     registry = "roop1985/python-flask"
-    registryCredential = 'docker'
+    registryCredential = 'docker repo'
     dockerImage = ''
   }
   agent any
@@ -32,13 +33,11 @@ pipeline {
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
-
     stage('Deploy the image using ansible') {
            steps{      
           git credentialsId: 'git-p', url: 'https://github.com/roopesh2013/flask-app',
           ansiblePlaybook become: true, credentialsId: 'root', disableHostKeyChecking: true, extras: 'tag_var = ${BUILD_NUMBER}', installation: 'ansible', inventory: '/etc/ansible/hosts', limit: 'ansible-node', playbook: 'docker_manage.yml'            
           }
-      }
-    }
+
   }
 }
