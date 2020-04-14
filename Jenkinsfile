@@ -34,10 +34,11 @@ pipeline {
       }
     }
     stage('Deploy the image using ansible') {
-           steps{      
-          git credentialsId: 'git-p', url: 'https://github.com/roopesh2013/flask-app',
-          ansiblePlaybook become: true, credentialsId: 'root', disableHostKeyChecking: true, extras: 'tag_var = ${BUILD_NUMBER}', installation: 'ansible', inventory: '/etc/ansible/hosts', limit: 'ansible-node', playbook: 'docker_manage.yml'            
+           steps{     
+          git credentialsId: 'git-p', url: 'https://github.com/roopesh2013/flask-app'
+          ansiblePlaybook become: true, credentialsId: 'root', disableHostKeyChecking: true, extras: 'tag_var = 2', installation: 'ansible', inventory: '/etc/ansible/hosts', limit: 'ansible-node', playbook: 'docker_manage.yml'  
+                    
           }
-
-  }
+       }
+    }
 }
