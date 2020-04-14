@@ -36,9 +36,7 @@ pipeline {
       }
     }
     stage('Deploy the image using ansible') {
-        when {
-                branch 'master'
-            }
+
            steps{     
           git credentialsId: 'git-p', url: 'https://github.com/roopesh2013/flask-app'
           ansiblePlaybook extras: '--extra-vars="tag_var=${BUILD_NUMBER}"', installation: 'ansible', playbook: 'docker_manage.yml'  
