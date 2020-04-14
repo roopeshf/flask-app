@@ -21,10 +21,10 @@
            name: myflask-app
            image: roop1985/python-flask:2
            state: started
-           published_ports: 7000:7000
+           published_ports: 5000:5000
 
   - name: check the website
     uri:
-      url: http://localhost:7000
+      url: http://localhost:5000
       status_code: 200
 
