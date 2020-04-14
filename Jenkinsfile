@@ -8,11 +8,17 @@ pipeline {
   agent any
   stages {
     stage('Cloning Git') {
+        when {
+                branch 'master'
+            }
       steps {
         git 'https://github.com/roopesh2013/flask-app.git'
       }
     }
     stage('Building image') {
+        when {
+                branch 'master'
+            }
       steps{
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -34,6 +40,9 @@ pipeline {
       }
     }
     stage('Deploy the image using ansible') {
+        when {
+                branch 'master'
+            }
            steps{     
           git credentialsId: 'git-p', url: 'https://github.com/roopesh2013/flask-app'
           ansiblePlaybook extras: '--extra-vars="tag_var=${BUILD_NUMBER}"', installation: 'ansible', playbook: 'docker_manage.yml'  
