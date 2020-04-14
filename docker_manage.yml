@@ -21,7 +21,7 @@
            name: myflask-app
            image: roop1985/python-flask:2
            state: started
-           published_ports: 5000:5000
+           published_ports: 7000:7000
 
   - name: check the website
     uri:
