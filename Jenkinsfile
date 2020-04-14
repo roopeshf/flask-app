@@ -34,7 +34,7 @@ pipeline {
     }
 
     stage('Deploy the image using ansible') {
-      node('ansible-node') {
+      
       steps{
         dir("${WORKSPACE}") {
           git credentialsId: 'git', url: 'https://github.com/roopesh2013/flask-app',
@@ -49,7 +49,7 @@ pipeline {
           ])
         }
       }
-    }
+    
     }
   }
 }
